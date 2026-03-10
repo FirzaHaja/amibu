@@ -1,0 +1,802 @@
+<!doctype html>
+<html lang="id" class="h-full">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>amibu</title>
+    <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Quicksand:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      @keyframes slideUp {
+        from {
+          opacity: 0;
+          transform: translateY(15px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      @keyframes heartbeat {
+        0%,
+        100% {
+          transform: scale(1);
+        }
+        25% {
+          transform: scale(1.1);
+        }
+        50% {
+          transform: scale(1);
+        }
+      }
+      .fade-in {
+        animation: fadeIn 0.8s ease-out forwards;
+      }
+      .slide-up {
+        animation: slideUp 0.4s ease-out forwards;
+      }
+      .heartbeat {
+        animation: heartbeat 1s ease-in-out infinite;
+      }
+      .mystery-font {
+        font-family: "Cormorant Garamond", serif;
+      }
+      .romantic-font {
+        font-family: "Quicksand", sans-serif;
+      }
+      .glass-effect {
+        background: rgba(255, 255, 255, 0.12);
+        backdrop-filter: blur(20px);
+        border: 2px solid rgba(255, 255, 255, 0.25);
+      }
+      .action-btn {
+        transition: all 0.2s ease;
+      }
+      .action-btn:active {
+        transform: scale(0.95);
+      }
+      .border-3 {
+        border-width: 3px;
+      }
+      .border-l-3 {
+        border-left-width: 3px;
+      }
+      body {
+        box-sizing: border-box;
+      }
+    </style>
+  </head>
+  <body class="h-full overflow-hidden">
+    <div id="app" class="h-full w-full">
+      <!-- Screen 1: Password -->
+      <div
+        id="password-screen"
+        class="h-full w-full flex items-center justify-center p-4"
+        style="background: linear-gradient(135deg, #1a0033 0%, #2d0052 100%)"
+      >
+        <div class="text-center z-10 max-w-sm w-full fade-in">
+          <div class="text-5xl md:text-7xl mb-4">🌙</div>
+          <h1
+            class="mystery-font text-3xl md:text-5xl font-bold text-purple-300 mb-2"
+          >
+            ✨ ??? ✨
+          </h1>
+          <p class="mystery-font text-purple-300 text-sm md:text-base mb-6">
+            Hanya mereka yang tahu yang bisa masuk...
+          </p>
+          <div class="glass-effect rounded-2xl p-6">
+            <input
+              type="password"
+              id="password-input"
+              class="w-full bg-purple-900/20 border-b-2 border-purple-400 text-purple-100 text-center text-sm py-3 mb-4 focus:outline-none focus:border-pink-400 mystery-font"
+              placeholder="• • • • • • • • •"
+              aria-label="Masukkan password"
+            />
+            <p id="password-error" class="text-red-300 text-xs mb-4 hidden">
+              ✗ Bukan itu rahasianya...
+            </p>
+            <button
+              id="enter-btn"
+              class="w-full py-3 rounded-lg text-white text-sm font-bold transition-all"
+              style="background: linear-gradient(135deg, #a855f7, #7c3aed)"
+            >
+              ✨ Masuk ✨
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Screen 2: User Selection -->
+      <div
+        id="user-select-screen"
+        class="h-full w-full flex items-center justify-center p-4 hidden"
+        style="background: linear-gradient(135deg, #fdf2f8 0%, #fbcfe8 100%)"
+      >
+        <div class="text-center z-10 max-w-lg w-full fade-in">
+          <div class="text-6xl md:text-8xl mb-4 heartbeat">💑</div>
+          <h1
+            class="romantic-font text-2xl md:text-4xl font-bold bg-gradient-to-r from-rose-500 to-pink-500 bg-clip-text text-transparent mb-2"
+          >
+            Siapa?
+          </h1>
+          <p class="romantic-font text-pink-400 text-sm md:text-base mb-6">
+            Pilih identitasmu~
+          </p>
+          <div class="flex flex-col sm:flex-row gap-4">
+            <button
+              id="btn-ubii"
+              class="flex-1 py-6 px-4 rounded-2xl border-3 border-pink-400 text-center transition-all hover:scale-105 active:scale-95"
+              style="background: linear-gradient(135deg, #fff5f7, #ffe0e6)"
+            >
+              <div class="text-5xl mb-2">🦋</div>
+              <p class="romantic-font text-xl font-bold text-pink-600">Ubii</p>
+            </button>
+            <button
+              id="btn-amii"
+              class="flex-1 py-6 px-4 rounded-2xl border-3 border-pink-400 text-center transition-all hover:scale-105 active:scale-95"
+              style="background: linear-gradient(135deg, #fff5f7, #ffe0e6)"
+            >
+              <div class="text-5xl mb-2">🌸</div>
+              <p class="romantic-font text-xl font-bold text-pink-600">Amii</p>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Screen 3: Welcome -->
+      <div
+        id="welcome-screen"
+        class="h-full w-full flex items-center justify-center p-4 hidden"
+        style="background: linear-gradient(135deg, #fdf2f8 0%, #fbcfe8 100%)"
+      >
+        <div class="text-center z-10 fade-in">
+          <div class="text-7xl md:text-8xl mb-4 heartbeat">💖</div>
+          <h1
+            id="welcome-text"
+            class="romantic-font text-3xl md:text-5xl font-bold bg-gradient-to-r from-rose-500 to-pink-500 bg-clip-text text-transparent mb-2"
+          >
+            Selamatt datang sayangg
+          </h1>
+          <p
+            id="welcome-name"
+            class="romantic-font text-xl md:text-2xl text-pink-500 font-semibold"
+          ></p>
+        </div>
+      </div>
+
+      <!-- Screen 4: Chat -->
+      <div
+        id="chat-screen"
+        class="h-full w-full flex flex-col relative hidden"
+        style="
+          background: linear-gradient(
+            180deg,
+            #fdf2f8 0%,
+            #fce7f3 50%,
+            #fbcfe8 100%
+          );
+        "
+      >
+        <!-- Header -->
+        <div
+          class="flex-shrink-0 px-4 py-3 flex items-center justify-between border-b border-pink-200 relative z-10"
+          style="background: linear-gradient(90deg, #ec4899 0%, #f472b6 100%)"
+        >
+          <div class="flex items-center gap-2 min-w-0">
+            <div class="text-2xl md:text-3xl">💕</div>
+            <div class="min-w-0">
+              <h2
+                class="romantic-font text-white font-bold text-sm md:text-base truncate"
+              >
+                Our Space
+              </h2>
+              <p
+                id="chat-user-label"
+                class="romantic-font text-pink-100 text-xs md:text-sm truncate"
+              ></p>
+            </div>
+          </div>
+          <button
+            id="logout-btn"
+            class="flex-shrink-0 text-white text-xs md:text-sm px-2 md:px-3 py-1 rounded-full font-medium"
+            style="background: rgba(255, 255, 255, 0.25)"
+            aria-label="Keluar"
+          >
+            ✕
+          </button>
+        </div>
+
+        <!-- Messages -->
+        <div
+          id="messages-container"
+          class="flex-1 overflow-y-auto px-3 py-4 relative z-10 min-h-0"
+        >
+          <div id="messages-list" class="flex flex-col gap-3"></div>
+          <div
+            id="empty-state"
+            class="flex flex-col items-center justify-center h-full text-center hidden"
+          >
+            <div class="text-6xl mb-3">💌</div>
+            <p class="romantic-font text-pink-400 text-base font-semibold">
+              Belum ada pesan
+            </p>
+            <p class="romantic-font text-pink-300 text-xs mt-1">
+              Mulai kirim pesan~
+            </p>
+          </div>
+        </div>
+
+        <!-- Reply Preview -->
+        <div
+          id="reply-preview"
+          class="hidden px-3 py-2 border-t border-pink-200 text-xs relative z-10"
+          style="background: rgba(252, 231, 243, 0.95)"
+        >
+          <div class="flex items-center justify-between gap-2">
+            <div class="flex-1 overflow-hidden min-w-0">
+              <p class="romantic-font text-pink-600 font-bold truncate">
+                ↪️ Balas <span id="reply-to-name" class="text-pink-700"></span>
+              </p>
+              <p
+                id="reply-to-text"
+                class="romantic-font text-pink-500 truncate font-medium"
+              ></p>
+            </div>
+            <button
+              id="cancel-reply-btn"
+              class="text-pink-400 flex-shrink-0 text-lg"
+              aria-label="Batalkan balasan"
+            >
+              ✕
+            </button>
+          </div>
+        </div>
+
+        <!-- Input -->
+        <div
+          class="flex-shrink-0 px-3 py-2 border-t border-pink-200 relative z-10"
+          style="background: rgba(255, 255, 255, 0.95)"
+        >
+          <div id="photo-preview" class="mb-2 hidden">
+            <div class="relative inline-block">
+              <img
+                id="preview-img"
+                src=""
+                alt="Preview foto yang dipilih"
+                class="max-h-20 rounded-lg"
+              />
+              <button
+                id="remove-photo-btn"
+                class="absolute -top-2 -right-2 bg-red-400 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs hover:bg-red-500"
+                aria-label="Hapus foto"
+              >
+                ✕
+              </button>
+            </div>
+          </div>
+          <div class="flex items-end gap-2">
+            <label
+              class="action-btn flex-shrink-0 w-10 h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center text-white text-lg md:text-xl shadow-lg font-bold cursor-pointer"
+              style="background: linear-gradient(135deg, #f472b6, #ec4899)"
+              aria-label="Upload foto"
+              title="Upload foto"
+            >
+              📷
+              <input
+                type="file"
+                id="photo-input"
+                accept="image/*"
+                class="hidden"
+              />
+            </label>
+            <div class="flex-1 min-w-0">
+              <textarea
+                id="message-input"
+                rows="1"
+                class="w-full px-2 py-2 rounded-lg border border-pink-300 focus:border-pink-500 focus:outline-none resize-none romantic-font text-xs md:text-sm text-gray-700 placeholder-pink-300 font-medium"
+                placeholder="Pesan..."
+                style="max-height: 80px"
+                aria-label="Tulis pesan"
+              ></textarea>
+            </div>
+            <button
+              id="send-btn"
+              class="action-btn flex-shrink-0 w-10 h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center text-white text-lg md:text-xl shadow-lg font-bold"
+              style="background: linear-gradient(135deg, #ec4899, #f472b6)"
+              aria-label="Kirim pesan"
+            >
+              💝
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Delete Modal -->
+    <div
+      id="delete-modal"
+      class="fixed inset-0 z-50 flex items-center justify-center hidden"
+      style="background: rgba(0, 0, 0, 0.5)"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="delete-modal-title"
+    >
+      <div
+        class="bg-white rounded-2xl p-5 mx-3 max-w-xs w-full shadow-2xl fade-in"
+      >
+        <div class="text-center">
+          <div class="text-4xl md:text-5xl mb-3">🗑️</div>
+          <h3
+            id="delete-modal-title"
+            class="romantic-font text-lg font-semibold text-gray-700 mb-1"
+          >
+            Hapus?
+          </h3>
+          <p class="romantic-font text-gray-500 text-xs md:text-sm mb-4">
+            Permanen dihapus
+          </p>
+          <div class="flex gap-2">
+            <button
+              id="cancel-delete-btn"
+              class="flex-1 py-2 rounded-lg romantic-font text-xs font-medium text-gray-600 border border-gray-300 hover:bg-gray-50"
+            >
+              Batal
+            </button>
+            <button
+              id="confirm-delete-btn"
+              class="flex-1 py-2 rounded-lg romantic-font text-xs font-medium text-white"
+              style="background: linear-gradient(135deg, #ef4444, #f87171)"
+            >
+              Hapus
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ─── Firebase SDK ─────────────────────────────────────────────────────── -->
+    <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+      import {
+        getFirestore,
+        collection,
+        addDoc,
+        deleteDoc,
+        doc,
+        onSnapshot,
+        query,
+        orderBy,
+        serverTimestamp,
+      } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+      // ════════════════════════════════════════════════════════════════════════
+      // ⚙️  GANTI BAGIAN INI DENGAN firebaseConfig KAMU DARI FIREBASE CONSOLE
+      // ════════════════════════════════════════════════════════════════════════
+      const firebaseConfig = {
+        apiKey: "AIzaSyAl14SW-dvroucR0dnIZNvWI41xKlW2LnA",
+        authDomain: "amiibu.firebaseapp.com",
+        projectId: "amiibu",
+        storageBucket: "amiibu.firebasestorage.app",
+        messagingSenderId: "1012557556439",
+        appId: "1:1012557556439:web:1ce0f9edcf9a464c741e92",
+      };
+      // ════════════════════════════════════════════════════════════════════════
+
+      const app = initializeApp(firebaseConfig);
+      const db = getFirestore(app);
+      const messagesCol = collection(db, "messages");
+
+      // ─── State ───────────────────────────────────────────────────────────────
+      let currentUser = null;
+      let messages = [];
+      let replyingTo = null;
+      let messageToDelete = null;
+      let selectedPhoto = null;
+      let unsubscribe = null;
+
+      // ─── Password (SHA-256) ───────────────────────────────────────────────
+      // Hash dari: 'a timeless affair'
+      const CORRECT_HASH =
+        "dfcc32c73cbdea6d0df8c7f7a9cc2a22f7575d7e83d55ff0fefcda9cae1b13c3";
+
+      async function hashString(str) {
+        const encoder = new TextEncoder();
+        const buf = await crypto.subtle.digest("SHA-256", encoder.encode(str));
+        return Array.from(new Uint8Array(buf))
+          .map((b) => b.toString(16).padStart(2, "0"))
+          .join("");
+      }
+
+      async function checkPassword() {
+        const input = document
+          .getElementById("password-input")
+          .value.toLowerCase()
+          .trim();
+        const errorEl = document.getElementById("password-error");
+        const hash = await hashString(input);
+        if (hash === CORRECT_HASH) {
+          errorEl.classList.add("hidden");
+          showScreen("user-select");
+        } else {
+          errorEl.classList.remove("hidden");
+          document.getElementById("password-input").value = "";
+        }
+      }
+
+      // ─── Screen Navigation ────────────────────────────────────────────────
+      const SCREENS = ["password", "user-select", "welcome", "chat"];
+      function showScreen(name) {
+        SCREENS.forEach((s) =>
+          document
+            .getElementById(s + "-screen")
+            .classList.toggle("hidden", s !== name),
+        );
+      }
+
+      // ─── User Selection ───────────────────────────────────────────────────
+      function selectUser(user) {
+        currentUser = user;
+        showScreen("welcome");
+        document.getElementById("welcome-name").textContent = `~ ${user} ~`;
+        startListening();
+        setTimeout(() => {
+          showScreen("chat");
+          document.getElementById("chat-user-label").textContent =
+            `Masuk sebagai ${user}`;
+          scrollToBottom();
+        }, 2000);
+      }
+
+      function logout() {
+        if (unsubscribe) {
+          unsubscribe();
+          unsubscribe = null;
+        }
+        currentUser = null;
+        replyingTo = null;
+        selectedPhoto = null;
+        messages = [];
+        document.getElementById("message-input").value = "";
+        document.getElementById("photo-preview").classList.add("hidden");
+        document.getElementById("messages-list").innerHTML = "";
+        showScreen("user-select");
+      }
+
+      // ─── Firebase: Real-time listener ────────────────────────────────────
+      function startListening() {
+        if (unsubscribe) unsubscribe();
+        const q = query(messagesCol, orderBy("timestamp", "asc"));
+        unsubscribe = onSnapshot(
+          q,
+          (snapshot) => {
+            messages = snapshot.docs.map((d) => ({
+              __backendId: d.id,
+              ...d.data(),
+            }));
+            renderMessages();
+            scrollToBottom();
+          },
+          (err) => {
+            console.error("Firestore error:", err);
+            showToast("Koneksi bermasalah, coba reload");
+          },
+        );
+      }
+
+      // ─── Kompres foto sebelum simpan ──────────────────────────────────────
+      // Max 500KB agar tidak melebihi kuota Firestore gratis
+      function compressImage(base64, maxKB = 500) {
+        return new Promise((resolve) => {
+          const img = new Image();
+          img.onload = () => {
+            const canvas = document.createElement("canvas");
+            let { width, height } = img;
+            // Scale down jika terlalu besar
+            const maxDim = 1024;
+            if (width > maxDim || height > maxDim) {
+              if (width > height) {
+                height = Math.round((height * maxDim) / width);
+                width = maxDim;
+              } else {
+                width = Math.round((width * maxDim) / height);
+                height = maxDim;
+              }
+            }
+            canvas.width = width;
+            canvas.height = height;
+            canvas.getContext("2d").drawImage(img, 0, 0, width, height);
+
+            // Turunkan kualitas sampai ukuran di bawah maxKB
+            let quality = 0.8;
+            let result = canvas.toDataURL("image/jpeg", quality);
+            while (result.length > maxKB * 1024 * 1.37 && quality > 0.2) {
+              quality -= 0.1;
+              result = canvas.toDataURL("image/jpeg", quality);
+            }
+            resolve(result);
+          };
+          img.src = base64;
+        });
+      }
+
+      // ─── Photo Upload ─────────────────────────────────────────────────────
+      document.getElementById("photo-input").addEventListener("change", (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = async (ev) => {
+          const compressed = await compressImage(ev.target.result);
+          selectedPhoto = compressed;
+          document.getElementById("preview-img").src = compressed;
+          document.getElementById("photo-preview").classList.remove("hidden");
+        };
+        reader.readAsDataURL(file);
+      });
+
+      function removePhoto() {
+        selectedPhoto = null;
+        document.getElementById("photo-preview").classList.add("hidden");
+        document.getElementById("photo-input").value = "";
+      }
+
+      // ─── Send Message ─────────────────────────────────────────────────────
+      async function sendMessage() {
+        const input = document.getElementById("message-input");
+        const text = input.value.trim();
+        const sendBtn = document.getElementById("send-btn");
+
+        if ((!text && !selectedPhoto) || !currentUser) return;
+
+        sendBtn.disabled = true;
+
+        try {
+          await addDoc(messagesCol, {
+            sender: currentUser,
+            message: text,
+            photo: selectedPhoto || "",
+            timestamp: serverTimestamp(),
+            reply_to_id: replyingTo ? replyingTo.__backendId : "",
+            reply_to_message: replyingTo ? replyingTo.message : "",
+            reply_to_sender: replyingTo ? replyingTo.sender : "",
+          });
+
+          input.value = "";
+          input.style.height = "auto";
+          selectedPhoto = null;
+          replyingTo = null;
+          cancelReply();
+          removePhoto();
+        } catch (err) {
+          console.error(err);
+          showToast("Gagal kirim pesan");
+        }
+
+        sendBtn.disabled = false;
+      }
+
+      // ─── Render Messages ──────────────────────────────────────────────────
+      function renderMessages() {
+        const container = document.getElementById("messages-list");
+        const emptyState = document.getElementById("empty-state");
+
+        if (messages.length === 0) {
+          container.innerHTML = "";
+          emptyState.classList.remove("hidden");
+          return;
+        }
+        emptyState.classList.add("hidden");
+
+        const existingEls = new Map(
+          [...container.children].map((el) => [el.dataset.msgId, el]),
+        );
+
+        messages.forEach((msg, index) => {
+          const msgId = msg.__backendId;
+          if (existingEls.has(msgId)) {
+            existingEls.delete(msgId);
+            return;
+          }
+
+          const isSent = msg.sender === currentUser;
+          const date = msg.timestamp ? msg.timestamp.toDate() : new Date();
+          const timeStr = date.toLocaleTimeString("id-ID", {
+            hour: "2-digit",
+            minute: "2-digit",
+          });
+          const dateStr = date.toLocaleDateString("id-ID", {
+            weekday: "short",
+            year: "numeric",
+            month: "short",
+            day: "numeric",
+          });
+
+          let replyHtml = "";
+          if (msg.reply_to_message) {
+            const safeSender = escapeHtml(msg.reply_to_sender);
+            const safeReplyMsg = escapeHtml(
+              msg.reply_to_message.substring(0, 40),
+            );
+            replyHtml = `
+          <div class="mb-2 px-2 py-1.5 rounded text-xs ${isSent ? "bg-pink-100" : "bg-rose-100"} border-l-3 ${isSent ? "border-pink-400" : "border-rose-400"}">
+            <p class="romantic-font font-bold ${isSent ? "text-pink-700" : "text-rose-700"} mb-0.5">↩️ ${safeSender}</p>
+            <p class="romantic-font ${isSent ? "text-pink-600" : "text-rose-600"} line-clamp-2">"${safeReplyMsg}"</p>
+          </div>`;
+          }
+
+          let photoHtml = "";
+          if (msg.photo) {
+            const safeSrc = escapeHtml(msg.photo);
+            photoHtml = `
+          <div class="mb-2">
+            <img src="${safeSrc}" alt="Foto pesan" class="max-w-xs rounded-lg" style="max-height: 200px; object-fit: cover;">
+          </div>`;
+          }
+
+          const postEl = document.createElement("div");
+          postEl.dataset.msgId = msgId;
+          postEl.className = "slide-up w-full";
+          postEl.style.animationDelay = `${index * 0.02}s`;
+          postEl.innerHTML = `
+        <div class="group max-w-xs ${isSent ? "ml-auto" : ""} rounded-lg border shadow-sm hover:shadow-md transition-all overflow-hidden ${isSent ? "bg-pink-50 border-pink-200" : "bg-rose-50 border-rose-200"}">
+          <div class="px-3 py-2 ${isSent ? "bg-pink-100" : "bg-rose-100"} flex items-center justify-between gap-2 border-b ${isSent ? "border-pink-200" : "border-rose-200"}">
+            <div class="flex items-center gap-1 min-w-0">
+              <span class="flex-shrink-0 text-base">${isSent ? "💕" : "💖"}</span>
+              <span class="romantic-font font-bold text-xs md:text-sm ${isSent ? "text-pink-700" : "text-rose-700"} truncate">${escapeHtml(msg.sender)}</span>
+            </div>
+            <div class="flex-shrink-0 text-right">
+              <p class="romantic-font text-xs ${isSent ? "text-pink-500" : "text-rose-500"}">${timeStr}</p>
+              <p class="romantic-font text-xs ${isSent ? "text-pink-400" : "text-rose-400"}">${dateStr}</p>
+            </div>
+          </div>
+          <div class="px-3 py-2">
+            ${replyHtml}
+            ${photoHtml}
+            ${msg.message ? `<p class="romantic-font text-xs md:text-sm text-gray-800 leading-relaxed whitespace-pre-wrap break-words font-medium">${escapeHtml(msg.message)}</p>` : ""}
+          </div>
+          <div class="px-3 py-2 ${isSent ? "bg-pink-100 border-t border-pink-200" : "bg-rose-100 border-t border-rose-200"} flex gap-2">
+            <button data-action="reply" data-id="${escapeHtml(msgId)}" class="action-btn text-sm px-3 py-1.5 rounded-lg font-medium flex-1 ${isSent ? "text-pink-700 bg-pink-200 hover:bg-pink-300" : "text-rose-700 bg-rose-200 hover:bg-rose-300"}">↩️ Balas</button>
+            <button data-action="delete" data-id="${escapeHtml(msgId)}" class="action-btn text-sm px-3 py-1.5 rounded-lg font-medium flex-1 text-red-700 bg-red-200 hover:bg-red-300">🗑️ Hapus</button>
+          </div>
+        </div>`;
+          container.appendChild(postEl);
+        });
+
+        existingEls.forEach((el) => el.remove());
+      }
+
+      // ─── Reply ────────────────────────────────────────────────────────────
+      function replyToMessage(backendId) {
+        const msg = messages.find((m) => m.__backendId === backendId);
+        if (!msg) return;
+        replyingTo = msg;
+        document.getElementById("reply-preview").classList.remove("hidden");
+        document.getElementById("reply-to-name").textContent = msg.sender;
+        document.getElementById("reply-to-text").textContent = (
+          msg.message || "📷 Foto"
+        ).substring(0, 50);
+        document.getElementById("message-input").focus();
+      }
+
+      function cancelReply() {
+        replyingTo = null;
+        document.getElementById("reply-preview").classList.add("hidden");
+      }
+
+      // ─── Delete ───────────────────────────────────────────────────────────
+      function confirmDelete(backendId) {
+        messageToDelete = messages.find((m) => m.__backendId === backendId);
+        if (!messageToDelete) return;
+        document.getElementById("delete-modal").classList.remove("hidden");
+      }
+
+      function closeDeleteModal() {
+        document.getElementById("delete-modal").classList.add("hidden");
+        messageToDelete = null;
+      }
+
+      // ─── Helpers ──────────────────────────────────────────────────────────
+      function escapeHtml(text) {
+        const div = document.createElement("div");
+        div.textContent = String(text);
+        return div.innerHTML;
+      }
+
+      function scrollToBottom() {
+        const container = document.getElementById("messages-container");
+        if (container) container.scrollTop = container.scrollHeight;
+      }
+
+      function showToast(message) {
+        const toast = document.createElement("div");
+        toast.className =
+          "fixed top-3 left-1/2 transform -translate-x-1/2 px-4 py-2 rounded-full romantic-font text-white text-xs md:text-sm shadow-lg z-50 fade-in";
+        toast.style.background = "linear-gradient(135deg, #ec4899, #f472b6)";
+        toast.textContent = message;
+        document.body.appendChild(toast);
+        setTimeout(() => toast.remove(), 2500);
+      }
+
+      // ─── Event Listeners ──────────────────────────────────────────────────
+      document
+        .getElementById("password-input")
+        .addEventListener("keyup", (e) => {
+          if (e.key === "Enter") checkPassword();
+        });
+      document
+        .getElementById("enter-btn")
+        .addEventListener("click", checkPassword);
+      document
+        .getElementById("btn-ubii")
+        .addEventListener("click", () => selectUser("Ubii"));
+      document
+        .getElementById("btn-amii")
+        .addEventListener("click", () => selectUser("Amii"));
+      document.getElementById("logout-btn").addEventListener("click", logout);
+      document
+        .getElementById("send-btn")
+        .addEventListener("click", sendMessage);
+      document
+        .getElementById("cancel-reply-btn")
+        .addEventListener("click", cancelReply);
+      document
+        .getElementById("remove-photo-btn")
+        .addEventListener("click", removePhoto);
+      document
+        .getElementById("cancel-delete-btn")
+        .addEventListener("click", closeDeleteModal);
+
+      document
+        .getElementById("confirm-delete-btn")
+        .addEventListener("click", async () => {
+          if (!messageToDelete) return;
+          const btn = document.getElementById("confirm-delete-btn");
+          btn.disabled = true;
+          try {
+            await deleteDoc(doc(db, "messages", messageToDelete.__backendId));
+          } catch (err) {
+            showToast("Gagal hapus pesan");
+          }
+          btn.disabled = false;
+          closeDeleteModal();
+        });
+
+      document
+        .getElementById("messages-list")
+        .addEventListener("click", (e) => {
+          const btn = e.target.closest("button[data-action]");
+          if (!btn) return;
+          if (btn.dataset.action === "reply") replyToMessage(btn.dataset.id);
+          if (btn.dataset.action === "delete") confirmDelete(btn.dataset.id);
+        });
+
+      document
+        .getElementById("message-input")
+        .addEventListener("input", function () {
+          this.style.height = "auto";
+          this.style.height = Math.min(this.scrollHeight, 80) + "px";
+        });
+
+      document
+        .getElementById("message-input")
+        .addEventListener("keydown", function (e) {
+          if (e.key === "Enter" && !e.shiftKey) {
+            e.preventDefault();
+            sendMessage();
+          }
+        });
+    </script>
+  </body>
+</html>
